@@ -1,0 +1,539 @@
+/* ===== PLC 学习工具站 · 全局样式 ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Microsoft YaHei", "微软雅黑", "PingFang SC", sans-serif; /* 系统字体 */
+  background: #f1f5f9;          /* 页面浅灰蓝底 */
+  color: #1e293b;               /* 正文深灰 */
+  line-height: 1.6;
+}
+
+/* ===== 顶部导航 ===== */
+.navbar {
+  background: #ffffff;
+  border-bottom: 1px solid #e2e8f0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar-inner {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+}
+
+.nav-brand {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0ea5e9;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.nav-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.nav-links a {
+  font-size: 15px;
+  margin-left: 18px;
+  color: #475569;
+  text-decoration: none;
+  padding: 4px 2px;
+  border-bottom: 2px solid transparent; /* 选中态下划线占位，避免跳动 */
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.nav-links a:hover {
+  color: #0ea5e9;
+}
+
+.nav-links a.active {
+  color: #0ea5e9;
+  border-bottom-color: #0ea5e9;  /* 当前筛选档蓝色下划线 */
+}
+
+/* ===== 主体容器 ===== */
+.container {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+}
+
+/* ===== 门面 hero：渐变背景 + 呼吸动画 ===== */
+.hero {
+  background: linear-gradient(135deg, #0ea5e9 0%, #6366f1 55%, #a855f7 100%);
+  color: #ffffff;
+  border-radius: 16px;
+  padding: 48px 32px 40px;
+  text-align: center;
+  margin-bottom: 28px;
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.25);
+  animation: heroBreath 4s ease-in-out infinite; /* 呼吸效果：阴影缓慢起伏 */
+}
+
+@keyframes heroBreath {
+  0%, 100% { box-shadow: 0 10px 30px rgba(99, 102, 241, 0.25); }
+  50%      { box-shadow: 0 10px 40px rgba(168, 85, 247, 0.4); }
+}
+
+.hero h1 {
+  font-size: 38px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.hero h1 span {
+  background: rgba(255, 255, 255, 0.18);
+  padding: 2px 12px;
+  border-radius: 8px;
+}
+
+.hero p {
+  margin-top: 12px;
+  font-size: 16px;
+  opacity: 0.95;
+}
+
+/* ===== 收藏栏 ===== */
+.fav-bar {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 24px;
+}
+
+.fav-bar-title {
+  font-weight: 700;
+  color: #b45309;
+  margin-bottom: 8px;
+}
+
+.fav-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.fav-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #ffffff;
+  border: 1px solid #fde68a;
+  border-radius: 999px;
+  padding: 3px 12px;
+  font-size: 13px;
+  color: #92400e;
+}
+
+.fav-item a {
+  color: #92400e;
+  text-decoration: none;
+}
+
+.fav-item a:hover {
+  text-decoration: underline;
+}
+
+.fav-remove {
+  border: none;
+  background: transparent;
+  color: #b45309;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 0 2px;
+}
+
+.fav-remove:hover {
+  color: #ef4444;
+}
+
+/* ===== 卡片网格 ===== */
+.tool-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); /* 桌面自适应多列 */
+  gap: 16px;
+}
+
+/* ===== 单张卡片 ===== */
+.tool-card {
+  position: relative;
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 18px 20px 20px;
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
+  border-top: 4px solid var(--cat);   /* 顶部彩条：颜色由分类变量控制 */
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.tool-card:hover {
+  transform: translateY(-4px);        /* hover 上浮 */
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
+}
+
+/* 分类配色：每个分类一组主色/浅色（CSS 变量） */
+.cat-basics { --cat: #0ea5e9; --cat2: #7dd3fc; }  /* 蓝 */
+.cat-ladder { --cat: #22c55e; --cat2: #86efac; }  /* 绿 */
+.cat-io     { --cat: #f97316; --cat2: #fdba74; }  /* 橙 */
+.cat-lang   { --cat: #a855f7; --cat2: #d8b4fe; }  /* 紫 */
+.cat-notes  { --cat: #06b6d4; --cat2: #67e8f9; }  /* 青（随手记专用） */
+
+.tool-title {
+  position: relative;
+  font-size: 17px;
+  font-weight: 700;
+  color: #0f172a;
+  padding-right: 60px;  /* 右侧预留：提示符号 + 星星按钮 */
+}
+
+/* 展开提示符号：提示"点我查看"（点击卡片弹出弹窗） */
+.tool-title::after {
+  content: "▸";
+  position: absolute;
+  right: 42px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 14px;
+  color: #94a3b8;
+  transition: color 0.2s;
+}
+
+/* ===== 弹窗 ===== */
+.modal-overlay {
+  position: fixed;                        /* 固定铺满整个屏幕 */
+  inset: 0;
+  background: rgba(15, 23, 42, 0.5);      /* 半透明深色遮罩 */
+  display: flex;
+  align-items: center;                    /* 垂直居中 */
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+  animation: modalFade 0.2s ease;         /* 遮罩淡入 */
+}
+
+@keyframes modalFade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.modal {
+  background: #ffffff;
+  border-radius: 16px;                    /* 圆角 16px */
+  max-width: 640px;                       /* 最大宽度 640px */
+  width: calc(100% - 56px);               /* 左右各留 28px 屏幕边距 */
+  padding: 28px;                          /* 弹窗内左右留白 28px */
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.3);
+  border-top: 4px solid var(--cat);       /* 顶部分类色条（颜色由 cat-* 类决定） */
+  animation: modalPop 0.25s ease;         /* 轻微弹入动画 */
+}
+
+@keyframes modalPop {
+  from { transform: scale(0.95); opacity: 0; }
+  to   { transform: scale(1); opacity: 1; }
+}
+
+.modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.modal-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #0f172a;
+  line-height: 1.5;
+  padding-right: 12px;
+}
+
+.modal-close {
+  border: none;
+  background: #f1f5f9;
+  color: #475569;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s, color 0.2s;
+}
+
+.modal-close:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.modal-body {
+  font-size: 18px;                        /* 正文 18px（比原 14px 大一号） */
+  line-height: 1.8;                       /* 行距 1.8 */
+  color: #475569;
+  max-height: 70vh;                       /* 内容过长时弹窗内滚动，不截断文字 */
+  overflow-y: auto;
+}
+
+/* ===== 随手记视图 ===== */
+.notes-banner {
+  background: #dcfce7;                    /* 浅绿底醒目横幅 */
+  color: #166534;                         /* 深绿字 */
+  border: 1px solid #86efac;
+  border-radius: 10px;
+  padding: 12px 16px;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+.notes-actions {
+  margin-bottom: 12px;
+}
+.notes-change-lock {
+  border: 1px solid #94a3b8;
+  background: #ffffff;
+  color: #475569;
+  border-radius: 8px;
+  padding: 6px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.notes-change-lock:hover {
+  border-color: #06b6d4;
+  color: #0e7490;
+}
+.notes-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.notes-input {
+  flex: 1;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.notes-input:focus {
+  border-color: #06b6d4;
+}
+.notes-add {
+  background: #06b6d4;                    /* 青色主按钮 */
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 0 18px;
+  font-size: 14px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+.notes-add:hover {
+  background: #0891b2;
+}
+
+/* 随手记卡片：复用 .tool-card，青色分类，整卡点击弹窗查看（与主页一致） */
+.notes-view .tool-card {
+  cursor: pointer;                        /* 与主页卡片一致：整卡可点 */
+}
+.notes-view .tool-title {
+  padding-right: 34px;                    /* 右侧让位，避免长标题压到删除按钮 */
+}
+.notes-view .tool-title::after {
+  content: "";                            /* 去掉右侧 ▸ 提示符（弹窗式查看） */
+}
+.note-time {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-top: 4px;
+}
+/* 弹窗内：添加时间行（与正文用浅色虚线分隔） */
+.modal-time {
+  font-size: 13px;
+  color: #94a3b8;
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px dashed #e2e8f0;
+}
+.note-del {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  border: none;
+  background: #f1f5f9;
+  color: #94a3b8;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.note-del:hover {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+/* ===== 口令弹窗 ===== */
+.lock-modal {
+  max-width: 360px;                       /* 比内容弹窗窄，适合输入口令 */
+  border-top-color: #06b6d4;              /* 顶部彩条用青色 */
+}
+
+/* 入口说明：浅色底卡片，放在口令输入区上方，醒目可见 */
+.lock-intro {
+  background: #ecfeff;                    /* 青色浅底 */
+  color: #155e75;                         /* 深青字 */
+  border: 1px solid #a5f3fc;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 13px;
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+
+/* 忘记口令：重置链接（输入口令模式显示） */
+.lock-reset {
+  border: none;
+  background: transparent;
+  color: #0e7490;
+  font-size: 13px;
+  cursor: pointer;
+  padding: 4px 0;
+  text-align: center;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+.lock-reset:hover {
+  color: #ef4444;
+}
+.lock-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.lock-input {
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 14px;
+  font-family: inherit;
+  outline: none;
+}
+.lock-input:focus {
+  border-color: #06b6d4;
+}
+.lock-tip {
+  font-size: 13px;
+  color: #ef4444;
+  min-height: 18px;                       /* 预留提示行高度，避免弹窗抖动 */
+}
+.lock-btn {
+  background: #06b6d4;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.lock-btn:hover {
+  background: #0891b2;
+}
+
+/* ===== 收藏星星按钮 ===== */
+.fav-btn {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  font-size: 16px;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.fav-btn:hover {
+  border-color: #f59e0b;
+  color: #f59e0b;
+}
+
+.fav-btn.faved {           /* 已收藏：金色星星 + 金边框 */
+  border-color: #f59e0b;
+  color: #f59e0b;
+  background: #fffbeb;
+}
+
+/* ===== 页脚 ===== */
+.footer {
+  text-align: center;
+  padding: 24px 16px 32px;
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+/* ===== 手机适配（必须）：窄屏单列 + 收紧间距 ===== */
+@media (max-width: 600px) {
+  .hero {
+    padding: 32px 16px 28px;
+    border-radius: 14px;
+  }
+  .hero h1 {
+    font-size: 28px;      /* 手机上门面标题略缩小，避免溢出 */
+  }
+  .nav-links a {
+    font-size: 14px;
+    margin-left: 10px;
+  }
+  .tool-grid {
+    grid-template-columns: 1fr;   /* 手机上单列 */
+  }
+  .tool-card {
+    padding: 14px 16px;
+  }
+  /* 弹窗手机适配 */
+  .modal {
+    width: 92%;                   /* 弹窗宽度最大占屏幕 92% */
+    padding: 20px 18px;           /* 上下留白收紧 */
+  }
+  .modal-body {
+    font-size: 17px;              /* 手机正文 17px */
+  }
+
+  /* 随手记手机适配：输入区单列，不横向溢出 */
+  .notes-form {
+    flex-direction: column;
+  }
+  .notes-add {
+    padding: 10px 0;
+    width: 100%;
+  }
+  .lock-modal {
+    width: 92%;
+  }
+  /* 手机入口说明字号收紧，避免溢出 */
+  .lock-intro {
+    font-size: 12px;
+    padding: 10px 12px;
+  }
+}

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <!-- 移动端适配视口：让手机按屏幕宽度渲染，不缩放 -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PLC 学习工具站</title>
+  <!-- 引入顺序：先样式，再数据，最后脚本（script 要读 data 渲染卡片） -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-page="home">
+  <!-- ===== 顶部导航 ===== -->
+  <nav class="navbar">
+    <div class="navbar-inner">
+      <a class="nav-brand" href="#">PLC 学习站</a>
+      <div class="nav-links">
+        <!-- data-filter：分类筛选档位（all=全部 / basics=什么是PLC / ladder=梯形图 / io=输入输出 / lang=编程语言 / fav=收藏） -->
+        <a href="#" data-filter="all"    class="nav-filter active">全部</a>
+        <a href="#" data-filter="basics" class="nav-filter">什么是PLC</a>
+        <a href="#" data-filter="ladder" class="nav-filter">梯形图</a>
+        <a href="#" data-filter="io"     class="nav-filter">输入输出</a>
+        <a href="#" data-filter="lang"   class="nav-filter">编程语言</a>
+        <a href="#" data-filter="fav"    class="nav-filter">⭐ 收藏</a>
+        <a href="#" data-filter="notes"  class="nav-filter">✏️ 随手记</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- ===== 门面：渐变背景（仿导航站但独立配色：工业蓝紫系） ===== -->
+    <div class="hero">
+      <h1>PLC <span>学习工具站</span></h1>
+      <p>✨ 工科生的口袋复习卡：翻卡片、点星收藏、随手复习</p>
+    </div>
+
+    <!-- ===== 收藏栏（默认隐藏，script.js 有收藏时才显示） ===== -->
+    <div class="fav-bar" id="favBar" style="display:none">
+      <div class="fav-bar-title">⭐ 我的收藏</div>
+      <div class="fav-list" id="favList"></div>   <!-- script.js 动态生成 -->
+    </div>
+
+    <!-- ===== 卡片区：完全由 script.js 根据 data.js 动态渲染 ===== -->
+    <div class="tool-grid" id="cardGrid"></div>
+
+    <!-- ===== 随手记视图：默认隐藏，点导航「✏️ 随手记」并输对口令后显示 ===== -->
+    <div class="notes-view" id="notesView" style="display:none">
+      <!-- 本地数据提示横幅（醒目绿底） -->
+      <div class="notes-banner">🔒 我的随手记只存在这台电脑的浏览器里（localStorage），不会上传到任何网站</div>
+
+      <!-- 顶部操作区：修改口令入口 -->
+      <div class="notes-actions">
+        <button class="notes-change-lock" id="btnChangeLock">🔑 修改口令</button>
+      </div>
+
+      <!-- 添加词条：标题 + 内容（内容必填或标题必填） -->
+      <div class="notes-form">
+        <input type="text" id="noteTitle" class="notes-input" placeholder="标题（可留空）">
+        <input type="text" id="noteContent" class="notes-input" placeholder="记点什么…（内容）">
+        <button class="notes-add" id="btnAddNote">＋ 添加</button>
+      </div>
+
+      <!-- 随手记卡片列表：由 renderNotes() 动态渲染，复用 tool-card 样式 -->
+      <div class="tool-grid" id="noteList"></div>
+    </div>
+  </div>
+
+  <!-- ===== 弹窗：点击卡片弹出，显示完整内容 ===== -->
+  <div class="modal-overlay" id="modalOverlay" style="display:none">
+    <div class="modal" id="modalBox">
+      <div class="modal-head">
+        <div class="modal-title" id="modalTitle"></div>
+        <button class="modal-close" id="modalClose" title="关闭">✕</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- ===== 口令弹窗：设置 / 输入 / 修改口令共用，由 JS 切换模式 ===== -->
+  <div class="modal-overlay" id="lockModal" style="display:none">
+    <div class="modal lock-modal">
+      <div class="modal-head">
+        <div class="modal-title" id="lockModalTitle">输入口令</div>
+        <button class="modal-close" id="lockModalClose" title="关闭">✕</button>
+      </div>
+
+      <!-- 入口说明：浅色底卡片，让第一次进来的人知道这是干什么的 -->
+      <div class="lock-intro">
+        ✏️ 我的随手记——这台电脑的私人复习笔记。可以记录自己的 PLC 笔记、易错点、自定义内容，方便复习。<br>
+        🔒 数据只存在这台电脑的浏览器里（localStorage），不会上传到任何网站。<br>
+        第一次使用请先设置口令；之后每次进入需要输入口令。<br>
+        忘记口令？可以重置（词条会保留，只换新口令）。
+      </div>
+
+      <div class="lock-body">
+        <input type="password" id="lockInput" class="lock-input" placeholder="请输入口令" autocomplete="off">
+        <input type="password" id="lockNewInput" class="lock-input" style="display:none" placeholder="请输入新口令" autocomplete="off">
+        <div class="lock-tip" id="lockTip"></div>
+        <button class="lock-btn" id="lockBtn">进入</button>
+        <!-- 忘记口令重置入口：仅在输入口令模式显示 -->
+        <button class="lock-reset" id="lockReset" style="display:none">忘记口令？重置</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== 页脚 ===== -->
+  <div class="footer">猪猪的 PLC 学习工具站 · 用爱发电 · v1.0</div>
+
+  <!-- 脚本引入顺序：数据在前，逻辑在后 -->
+  <script src="data.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
