@@ -45,6 +45,19 @@ body {
   flex-wrap: wrap;
 }
 
+/* 汉堡菜单按钮：桌面默认隐藏（>600px 用不到），手机 @media 内再显示 */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  color: #475569;
+  padding: 6px 10px;
+  margin-left: 8px;
+}
+
 .nav-links a {
   font-size: 15px;
   margin-left: 18px;
@@ -501,20 +514,31 @@ body {
   .hero h1 {
     font-size: 28px;      /* 手机上门面标题略缩小，避免溢出 */
   }
+  .nav-toggle {
+    display: block;               /* 手机显示汉堡按钮 */
+    font-size: 24px;
+  }
   .nav-links {
-    flex-wrap: wrap;              /* 允许换行（手机上 7 项排两行） */
-    justify-content: flex-end;    /* 与站名对齐 */
-    row-gap: 4px;                 /* 两行之间留小空隙 */
+    display: none;                /* 手机默认隐藏 7 个链接，点 ☰ 才展开 */
+    flex-direction: column;       /* 展开时竖排，每行一个 */
+    width: 100%;                  /* 占满整行，从「PLC 学习站 + ☰」下方开始 */
+    gap: 12px;                    /* 链接之间间距 12px */
+    background: #ffffff;          /* 白底展开面板 */
+    padding: 16px 0;              /* 上下留白 16px */
+  }
+  .nav-links.open {
+    display: flex;                /* 点 ☰ 加 open 类后展开 */
   }
   .nav-links a {
-    font-size: 14px;
-    margin-left: 12px;
-    padding: 4px 0;
+    font-size: 15px;
+    margin-left: 0;
+    padding: 12px 8px;            /* 加大点击区域，方便手指 */
   }
   .navbar-inner {
-    height: auto;                 /* 解除固定高度，自动包住两行导航 */
-    padding: 10px 16px;           /* 上下留白，让两行不贴边 */
+    height: auto;                 /* 解除固定高度，自动包住导航 */
+    padding: 10px 16px;           /* 上下留白，让导航不贴边 */
     align-items: center;
+    flex-wrap: wrap;              /* 展开面板换行到第二行，不与品牌/☰ 挤一行 */
   }
   .tool-grid {
     grid-template-columns: 1fr;   /* 手机上单列 */

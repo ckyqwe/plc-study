@@ -87,3 +87,16 @@ AIGC:
 - 自测结果：① node --check script.js 语法通过 ✓ ② 全站扫描无 `note-folded` / `note-collapsed` / `note-content` / `isShort` 残留 ✓ ③ JS 引用的 22 个 DOM id 全部在 index.html 存在 ✓ ④ 关闭机制：✕ 按钮（modalClose）、点遮罩（overlay 事件）、Esc（全局 keydown）三处仍在 ✓ ⑤ 词条卡片点击 → openModal 弹窗（青色 cat-notes 顶条 + 标题 + 正文 + 添加时间），删除按钮 stopPropagation 不触发弹窗 ✓
 
 *（内容由AI生成，仅供参考）*
+
+## 八次修改（2026-08-23）——手机端导航改「汉堡菜单」，解决 7 项拥挤
+
+- 来源说明：用户要求手机端（≤600px）导航不再直接显示 7 个链接，改为「PLC 学习站 + ☰ 按钮」；点 ☰ 竖排展开，再点 ☰ 或点任意链接后收起；桌面（>600px）保持原横排一行不变。
+- 修改的文件：
+  - **index.html**：`.navbar-inner` 内新增汉堡按钮 `<button class="nav-toggle" id="navToggle">☰</button>`（放在品牌与 `.nav-links` 之间），带 `aria-label="打开菜单"`；`.nav-links` 结构不变。
+  - **style.css**：桌面新增 `.nav-toggle { display:none }`（桌面隐藏按钮）；手机 @media 内 `.nav-toggle` 改 `display:block`，`.nav-links` 改 `display:none`（默认收起），新增 `.nav-links.open { display:flex }` 展开态——竖排（`flex-direction:column`）、占满整行（`width:100%`）、白底（`#ffffff`）、上下留白 `16px`（`padding:16px 0`）、链接间距 `12px`（`gap:12px`）、字号 `15px`、点击区域加大（`padding:12px 8px`）；`.navbar-inner` 增加 `flex-wrap:wrap` 让展开面板换到第二行，不与品牌/☰ 挤一行。
+  - **script.js**：事件绑定区新增汉堡菜单逻辑——`navToggle` 点击切换 `.nav-links` 的 `open` 类（`toggleNav`）；新增 `closeNav()` 移除 `open` 类，并在每个 `.nav-filter` 链接点击回调末尾调用（点任意链接后收起面板；桌面无 open 类，调用无副作用）。
+  - **data.js**：无改动。
+- 遇到的问题：style.css 同文件两处修改并行编辑时，第二处被并发锁拒绝；改为单独重试后成功（符合"同文件每批只编辑一次"的经验）。
+- 自测结果：① 手机宽度（≤600px）导航只显示「PLC 学习站 + ☰」，7 个链接默认隐藏 ✓ ② 点 ☰ 展开竖排 7 个链接（白底、间距 12px、字号 15px、留白 16px）✓ ③ 点任意链接正常筛选跳转并收起面板 ✓ ④ 桌面（>600px）仍横排一行、☰ 隐藏，筛选/收藏/随手记逻辑不受影响 ✓ ⑤ node --check script.js 语法通过 ✓
+
+*（内容由AI生成，仅供参考）*

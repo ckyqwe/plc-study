@@ -491,11 +491,28 @@ function setFilter(filter) {
 }
 
 // ===== 6. 事件绑定 =====
+// 手机端汉堡菜单：点 ☰ 展开/收起 7 个链接（桌面按钮隐藏，这段逻辑对桌面无副作用）
+var navToggle = document.getElementById("navToggle");
+var navLinks = document.querySelector(".nav-links");
+
+function toggleNav() {
+  navLinks.classList.toggle("open");   // 有 open 类就展开，再点就收起
+}
+
+function closeNav() {
+  navLinks.classList.remove("open");   // 点任意链接后收起面板
+}
+
+navToggle.addEventListener("click", function () {
+  toggleNav();
+});
+
 // 导航筛选链接
 document.querySelectorAll(".nav-filter").forEach(function (a) {
   a.addEventListener("click", function (e) {
     e.preventDefault();
     setFilter(this.dataset.filter);
+    closeNav();                        // 手机端点链接后收起面板（桌面无 open 类，无副作用）
   });
 });
 
