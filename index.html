@@ -2,11 +2,14 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
+  <!-- 缓存爆破：每次修改 style.css / data.js / script.js 后，
+       把对应 ?v= 数字 +1（如 v=1 → v=2），用户浏览器就会自动加载新版，
+       不需要用户清缓存 -->
   <!-- 移动端适配视口：让手机按屏幕宽度渲染，不缩放 -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>PLC 学习工具站</title>
   <!-- 引入顺序：先样式，再数据，最后脚本（script 要读 data 渲染卡片） -->
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=1">
 </head>
 <body data-page="home">
   <!-- ===== 顶部导航 ===== -->
@@ -108,7 +111,7 @@
   <div class="footer">猪猪的 PLC 学习工具站 · 用爱发电 · v1.0</div>
 
   <!-- 脚本引入顺序：数据在前，逻辑在后 -->
-  <script src="data.js"></script>
-  <script src="script.js"></script>
+  <script src="data.js?v=1"></script>
+  <script src="script.js?v=1"></script>
 </body>
 </html>
