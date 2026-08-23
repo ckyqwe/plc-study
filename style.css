@@ -501,9 +501,20 @@ body {
   .hero h1 {
     font-size: 28px;      /* 手机上门面标题略缩小，避免溢出 */
   }
+  .nav-links {
+    flex-wrap: wrap;              /* 允许换行（手机上 7 项排两行） */
+    justify-content: flex-end;    /* 与站名对齐 */
+    row-gap: 4px;                 /* 两行之间留小空隙 */
+  }
   .nav-links a {
     font-size: 14px;
-    margin-left: 10px;
+    margin-left: 12px;
+    padding: 4px 0;
+  }
+  .navbar-inner {
+    height: auto;                 /* 解除固定高度，自动包住两行导航 */
+    padding: 10px 16px;           /* 上下留白，让两行不贴边 */
+    align-items: center;
   }
   .tool-grid {
     grid-template-columns: 1fr;   /* 手机上单列 */
